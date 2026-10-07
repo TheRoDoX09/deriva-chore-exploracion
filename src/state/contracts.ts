@@ -1,0 +1,31 @@
+import type { Session } from '@supabase/supabase-js';
+import type { AppNotification, ConnectionState, Place, Profile, PublicationInput } from '../domain/models';
+import type { MapLocationState } from './mapLocationStore';
+
+export type AppState = {
+  ready: boolean;
+  session: Session | null;
+  profile: Profile | null;
+  isPreview: boolean;
+  places: Place[];
+  notifications: AppNotification[];
+  isAdmin: boolean;
+  remoteCredits: number;
+  connection: ConnectionState;
+  error: string | null;
+  notificationsEnabled: boolean;
+  notificationRadius: number;
+  mapLocation: MapLocationState;
+  startMapLocation(): Promise<MapLocationState>;
+  locateMap(): Promise<MapLocationState>;
+  refresh(): Promise<void>;
+  signIn(email: string, password: string): Promise<void>;
+  signUp(name: string, email: string, password: string): Promise<{ needsEmailConfirmation: boolean }>;
+  signOut(): Promise<void>;
+  publish(draft: PublicationInput): Promise<string>;
+  deletePlace(id: string): Promise<void>;
+  markNotificationRead(id: string): Promise<void>;
+  setNotificationPreferences(enabled: boolean, radiusKm: number): Promise<void>;
+  openRemoteCheckout(requestId?: string): Promise<void>;
+  updateDisplayName(name: string): Promise<void>;
+};
